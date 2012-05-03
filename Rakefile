@@ -1,3 +1,5 @@
+require 'uglifier'
+
 desc "Build Project"
 task :build => :min do
   
@@ -10,5 +12,8 @@ end
 
 desc "Minify the compiled file"
 task :min => :coffee do
-  sh 'uglifyjs build/CascadingDropDown.js > build/CascadingDropDown.min.js'
+  minContent = Uglifier.new.compile(File.read("build/CascadingDropDown.js"))
+  outFile = File.open("build/CascadingDropDown.min.js", "w")
+  outFile.puts(minContent)
+  outFile.close
 end

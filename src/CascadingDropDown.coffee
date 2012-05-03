@@ -1,3 +1,8 @@
+###
+CascadingDropDown jQuery plugin. https://github.com/shawnmclean/CascadingDropDown
+Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
+###
+
 (($) ->
   $.fn.CascadingDropDown = (source, actionPath, options) ->
     throw "A source element is required"  unless source
