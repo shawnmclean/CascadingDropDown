@@ -5,10 +5,10 @@ end
 
 desc "Coffeescript compile"
 task :coffee do
-  
+  sh 'coffee -c -o build/ src/'
 end
 
 desc "Minify the compiled file"
 task :min => :coffee do
-  #coffee -c -o ./src/idle.coffee ./build/
+  sh 'uglifyjs build/CascadingDropDown.js > build/CascadingDropDown.min.js'
 end

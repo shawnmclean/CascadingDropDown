@@ -12,7 +12,18 @@
       onLoaded: null
     , options)
     
-    @each ->
-      $(source).on "change", ->
+    @each ->    
+      initialize = () ->
+        #reset the list of nothing is in it
+        reset()  if $this.children().size() is 0
+        #request new data if a value is in source
+        request()  if $(source).val()
         
+        
+      reset = () ->
+       
+       
+      request = () ->
+       
+       
 ) jQuery
