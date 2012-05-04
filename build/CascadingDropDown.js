@@ -10,7 +10,7 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
 
   (function($) {
     return $.fn.CascadingDropDown = function(source, actionPath, options) {
-      var settings;
+      var optionTag, settings;
       if (!source) {
         throw "A source element is required";
       }
@@ -23,10 +23,12 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
         errorText: "Error loading data.",
         postData: null,
         onLoading: null,
-        onLoaded: null
+        onLoaded: null,
+        onError: null
       }, options);
+      optionTag = "<option></option>";
       return this.each(function() {
-        var $this, initialize, loaded, post, reset;
+        var $this, clear, initialize, loaded, post, postError, reset;
         $this = $(this);
         $(source).on('change', function() {
           var parent;
@@ -45,35 +47,46 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
             return post();
           }
         };
+        clear = function() {
+          $this.empty();
+          return $this.attr("disabled", "disabled");
+        };
         reset = function() {
-          return alert('reset');
+          clear();
+          return $this.append($(optionTag).attr("value", "").text(settings.promptText));
+        };
+        loaded = function() {
+          return $this.removeAttr("disabled");
+        };
+        postError = function() {
+          clear();
+          $this.append($(optionTag).attr("value", "").text(settings.errorText));
+          return $.isFunction(settings.onError) && settings.onError.call($this);
         };
         post = function() {
-          if (settings.onLoading != null) {
-            settings.onLoading();
-          }
-          $.ajax({
+          $.isFunction(settings.onLoading) && settings.onLoading.call($this);
+          return $.ajax({
             url: actionPath,
             type: "POST",
             dataType: "json",
-            data: (typeof config.postData === "function" ? config.postData() : config.postData) || $(source).serialize(),
+            data: settings.postData || $(source).serialize(),
             success: function(data) {
               reset();
               $.each(data, function() {
-                return $this.append($(optionTag).attr("value", this.Value).text(this.Text));
+                return $this.append($(settings.optionTag).attr("value", this.Value).text(this.Text));
               });
-              methods.loaded();
-              return $.isFunction(config.onLoaded) && config.onLoaded.call($this);
+              loaded();
+              return $.isFunction(settings.onLoaded) && settings.onLoaded.call($this);
             },
             error: function() {
-              return methods.showError();
+              return postError();
             }
           });
-          return alert('post');
         };
-        return loaded = function() {
+        loaded = function() {
           return $this.removeAttr('disabled');
         };
+        return initialize();
       });
     };
   })(jQuery);

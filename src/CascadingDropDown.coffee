@@ -14,9 +14,10 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
       errorText: "Error loading data.",
       postData: null,
       onLoading: null,
-      onLoaded: null
+      onLoaded: null,
+      onError: null
     , options)
-    
+    optionTag = "<option></option>"
     @each ->
       $this = $(this)
       $(source).on 'change', ->
@@ -32,31 +33,44 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
         #request new data if a value is in source
         post()  if $(source).val()
         
+      clear =()->
+        $this.empty()
+        #set disabled
+        $this.attr "disabled", "disabled"
         
       reset = () ->
-        alert 'reset'
+        clear()
+        #set the prompt text
+        $this.append $(optionTag).attr("value", "").text(settings.promptText)
        
+      loaded = () ->
+        $this.removeAttr "disabled"
+      
+      postError =() ->
+        clear();
+        $this.append($(optionTag).attr("value", "").text(settings.errorText));
+        $.isFunction(settings.onError) and settings.onError.call($this)
+      
       post = () ->
-        settings.onLoading() if settings.onLoading?
+        $.isFunction(settings.onLoading) and settings.onLoading.call($this)
         $.ajax
           url: actionPath
           type: "POST"
           dataType: "json"
-          data: (if (typeof config.postData is "function") then config.postData() else config.postData) or $(source).serialize()
+          data: (settings.postData) or $(source).serialize()
           success: (data) ->
             reset()
             $.each data, ->
-              $this.append $(optionTag).attr("value", @Value).text(@Text)
+              $this.append $(settings.optionTag).attr("value", @Value).text(@Text)
         
-            methods.loaded()
-            $.isFunction(config.onLoaded) and config.onLoaded.call($this)
+            loaded()
+            $.isFunction(settings.onLoaded) and settings.onLoaded.call($this)
         
           error: ->
-            methods.showError()
-        alert 'post'
+            postError()
         
       loaded = () ->
         $this.removeAttr 'disabled'
        
-       
+      initialize()
 ) jQuery
