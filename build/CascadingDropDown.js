@@ -26,17 +26,54 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
         onLoaded: null
       }, options);
       return this.each(function() {
-        var initialize, request, reset;
+        var $this, initialize, loaded, post, reset;
+        $this = $(this);
+        $(source).on('change', function() {
+          var parent;
+          parent = $(this);
+          if (parent.val() !== "") {
+            return post();
+          } else {
+            return reset();
+          }
+        });
         initialize = function() {
           if ($this.children().size() === 0) {
             reset();
           }
           if ($(source).val()) {
-            return request();
+            return post();
           }
         };
-        reset = function() {};
-        return request = function() {};
+        reset = function() {
+          return alert('reset');
+        };
+        post = function() {
+          if (settings.onLoading != null) {
+            settings.onLoading();
+          }
+          $.ajax({
+            url: actionPath,
+            type: "POST",
+            dataType: "json",
+            data: (typeof config.postData === "function" ? config.postData() : config.postData) || $(source).serialize(),
+            success: function(data) {
+              reset();
+              $.each(data, function() {
+                return $this.append($(optionTag).attr("value", this.Value).text(this.Text));
+              });
+              methods.loaded();
+              return $.isFunction(config.onLoaded) && config.onLoaded.call($this);
+            },
+            error: function() {
+              return methods.showError();
+            }
+          });
+          return alert('post');
+        };
+        return loaded = function() {
+          return $this.removeAttr('disabled');
+        };
       });
     };
   })(jQuery);

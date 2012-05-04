@@ -1,14 +1,20 @@
 <html>
 	<head>
 		<title>CascadingDropDown Test</title>
-		<script src="../src/CascadingDropDown.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="/CascadingDropDown/build/CascadingDropDown.js"></script>
 		
 		<script>
-			$('#child').CascadingDropDown("#parent", "/Post");
+		$(function(){
+			$('#child').CascadingDropDown("#parent", "/Post");			
+		});
 		</script>
 	</head>
 	<body>
-		<select id="parent"></select>
+		<select id="parent">
+			<option value="">-- Null --</option>
+			<option value="1">Value 1</option>
+		</select>
 		<select id="child"></select>
 	</body>
 </html>

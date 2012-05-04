@@ -1,4 +1,5 @@
 require 'uglifier'
+require 'version_bumper'
 
 desc "Build Project"
 task :build => :min do
