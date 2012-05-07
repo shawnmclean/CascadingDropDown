@@ -1,10 +1,14 @@
 # Cascading Drop Down
 
-Nothing here to see yet.
+## Description
+
+CascadingDropDown is a jquery plugin that allows you to create cascading drop downs that depends on ajax to get the data.
 
 ## NuGet
 
-## Description
+Visual Studio users can install this directly into their .NET projects by executing the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console)
+
+    PM> Install-Package CascadingDropDown
 
 ## Changelog
 
