@@ -2,7 +2,8 @@
 
 ## Description
 
-CascadingDropDown is a jquery plugin that allows you to create cascading drop downs that depends on ajax to get the data.
+CascadingDropDown is a jquery plugin that allows you to create cascading drop downs that depends on ajax to get the data. This plugin was created as an update to Raj Kaimal's
+[CascadingDropDown jQuery plugin](http://weblogs.asp.net/rajbk/archive/2010/05/20/cascadingdropdown-jquery-plugin-for-asp-net-mvc.aspx) for ASP.NET MVC. Updates include support of dynamic drop downs. I will be updating this soon with features such as templating the dropdown list, etc.
 
 ## NuGet
 
