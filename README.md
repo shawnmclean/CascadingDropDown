@@ -18,5 +18,6 @@ Visual Studio users can install this directly into their .NET projects by execut
 To build you need the following:
 
   1. `rake` -> Install ruby, it comes with rake.
-  2. `uglifier` -> `gem install uglifier` minifier
-  3. `coffeescript` -> `npm install -g coffee-script` coffeescript compiler
+  2. `albacore` -> `gem install albacore`.
+  3. `uglifier` -> `gem install uglifier` minifier
+  4. `coffeescript` -> `npm install -g coffee-script` coffeescript compiler
