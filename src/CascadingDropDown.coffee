@@ -61,7 +61,7 @@ Copyright (c) 2012 Shawn Mclean and CascadingDropDown.js contributors
           success: (data) ->
             reset()
             $.each data, ->
-              $this.append $(settings.optionTag).attr("value", @Value).text(@Text)
+              $this.append $(optionTag).attr("value", @Value).text(@Text)
         
             loaded()
             $.isFunction(settings.onLoaded) and settings.onLoaded.call($this)
